@@ -56,15 +56,15 @@ namespace WinFormsApp1
             new ButtonInfo(3, 0x02, "A"),
             new ButtonInfo(3, 0x04, "Y"),
             new ButtonInfo(3, 0x08, "X"),
-            new ButtonInfo(3, 0x10, "R"),
-            new ButtonInfo(3, 0x20, "Z"),
+            new ButtonInfo(3, 0x10, "ZR"),
+            new ButtonInfo(3, 0x20, "R"),
             new ButtonInfo(3, 0x40, "Start/Pause"),
             new ButtonInfo(4, 0x01, "Dpad Down"),
             new ButtonInfo(4, 0x02, "Dpad Right"),
             new ButtonInfo(4, 0x04, "Dpad Left"),
             new ButtonInfo(4, 0x08, "Dpad Up"),
-            new ButtonInfo(4, 0x10, "L"),
-            new ButtonInfo(4, 0x20, "ZL"),
+            new ButtonInfo(4, 0x10, "ZL"),
+            new ButtonInfo(4, 0x20, "L"),
             new ButtonInfo(5, 0x01, "Home"),
             new ButtonInfo(5, 0x02, "Capture"),
             new ButtonInfo(5, 0x04, "GR"),
@@ -95,7 +95,7 @@ namespace WinFormsApp1
         private void InitHIDDevice()
         {
             int vendorId = 0x057e;
-            int productId = 0x2073;
+            int productId = 0x2069;
             label1.Text = "Connecting via HID now.";
             _device = HidDevices.Enumerate(vendorId, productId).FirstOrDefault();
             if (_device == null)
@@ -272,7 +272,7 @@ namespace WinFormsApp1
                         bool xPressed = false;
                         bool yPressed = false;
                         bool rPressed = false;
-                        bool zPressed = false;
+                        bool zrPressed = false;
                         bool startPressed = false;
                         bool upPressed = false;
                         bool downPressed = false;
@@ -305,8 +305,8 @@ namespace WinFormsApp1
                                     case "R":
                                         rPressed = true;
                                         break;
-                                    case "Z":
-                                        zPressed = true;
+                                    case "ZR":
+                                        zrPressed = true;
                                         break;
                                     case "Start/Pause":
                                         startPressed = true;
@@ -351,7 +351,7 @@ namespace WinFormsApp1
                         if (rPressed) controller.SetSliderValue(Xbox360Slider.RightTrigger, 255);
                         else controller.SetSliderValue(Xbox360Slider.RightTrigger, (byte)right_trigger_emulation);
 
-                        controller.SetButtonState(Nefarius.ViGEm.Client.Targets.Xbox360.Xbox360Button.RightShoulder, zPressed);
+                        controller.SetButtonState(Nefarius.ViGEm.Client.Targets.Xbox360.Xbox360Button.RightShoulder, zrPressed);
 
                         if (startPressed || homePressed || chatPressed) controller.SetButtonState(Nefarius.ViGEm.Client.Targets.Xbox360.Xbox360Button.Start, true);
                         else controller.SetButtonState(Nefarius.ViGEm.Client.Targets.Xbox360.Xbox360Button.Start, false);
@@ -385,7 +385,7 @@ namespace WinFormsApp1
         {
             // GC controller data
             const int VID = 0x057e;
-            const int PID = 0x2073;
+            const int PID = 0x2069;
 
             UsbDevice usbDevice = null;
             UsbEndpointWriter writer = null;
@@ -484,7 +484,7 @@ namespace WinFormsApp1
             Invoke((Delegate)(() => Y.Text = ""));
             Invoke((Delegate)(() => X.Text = ""));
             Invoke((Delegate)(() => R.Text = ""));
-            Invoke((Delegate)(() => Z.Text = ""));
+            Invoke((Delegate)(() => ZR.Text = ""));
             Invoke((Delegate)(() => Start.Text = ""));
             Invoke((Delegate)(() => Ddown.Text = ""));
             Invoke((Delegate)(() => Dright.Text = ""));
@@ -651,8 +651,8 @@ namespace WinFormsApp1
                                             Invoke((Delegate)(() => R.Text = "X"));
                                             right_trigger_emulation = 255;
                                             break;
-                                        case "Z":
-                                            Invoke((Delegate)(() => Z.Text = "X"));
+                                        case "ZR":
+                                            Invoke((Delegate)(() => ZR.Text = "X"));
                                             break;
                                         case "Start/Pause":
                                             Invoke((Delegate)(() => Start.Text = "X"));

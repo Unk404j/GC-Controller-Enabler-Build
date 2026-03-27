@@ -36,7 +36,7 @@
             textBox1 = new TextBox();
             label2 = new Label();
             R = new Label();
-            Z = new Label();
+            ZR = new Label();
             Home = new Label();
             Chat = new Label();
             Capture = new Label();
@@ -159,13 +159,13 @@
             R.Size = new Size(0, 15);
             R.TabIndex = 9;
             // 
-            // Z
+            // ZR
             // 
-            Z.AutoSize = true;
-            Z.Location = new Point(371, 65);
-            Z.Name = "Z";
-            Z.Size = new Size(0, 15);
-            Z.TabIndex = 10;
+            ZR.AutoSize = true;
+            ZR.Location = new Point(371, 65);
+            ZR.Name = "ZR";
+            ZR.Size = new Size(0, 15);
+            ZR.TabIndex = 10;
             // 
             // Home
             // 
@@ -634,7 +634,7 @@
             Controls.Add(Capture);
             Controls.Add(Chat);
             Controls.Add(Home);
-            Controls.Add(Z);
+            Controls.Add(ZR);
             Controls.Add(R);
             Controls.Add(label2);
             Controls.Add(textBox1);
@@ -664,7 +664,7 @@
         private TextBox textBox1;
         private Label label2;
         private Label R;
-        private Label Z;
+        private Label ZR;
         private Label Home;
         private Label Chat;
         private Label Capture;
