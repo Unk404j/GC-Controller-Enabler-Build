@@ -1,49 +1,145 @@
-![](https://github.com/Accolith/GC-controller-enabler/blob/main/Screenshot%202025-07-14%20204357.png)
+# Switch2 Controller Tool (WIP)
 
-**IMPORTANT**
+Experimental Windows tool for testing **Nintendo Switch 2 controller USB/HID behavior** and optionally emulating an Xbox 360 controller.
 
-Dualshock support not included yet.
+> ⚠️ Work in progress.
+> Current development is focused on the **Switch 2 Pro Controller over USB**, but the project is still incomplete.
 
-**About**
+---
 
-This is a small tool I wrote that lets you connect the gamecube controller via USB to make it usable on Steam.
-All it does is connect to the plugged in controller and send the 2 commands to initialize it and set the LED (idk if more are needed). Afterwards it stops the USB connection and connects via HID. Then it outputs the buttons sent via HID to check if it worked.
+## Current Status
 
-You can also press the Emulate button after connecting to make it emulate a 360 controller for non-steam games. Im not sure if i converted the analog inputs correctly as the scales are different between controllers.
+This project is currently in a transitional state.
 
+What works to some extent:
 
-**How to build**
+* USB initialization
+* HID input reading
+* live input visualization
+* optional Xbox 360 emulation through ViGEm
 
-- Install .NET SDK in Visual Studio
-- Build it :D
-- Or run "dotnet build WinFormsApp1/WinFormsApp1.csproj -c Release" in the repository.
+What is still incomplete or incorrect:
 
-You might need to change the values for the analog shoulder button emulation. Each controller seems to have varying values for non-pressed, fully pressed, and at the bump. So you might need to adapt them to your controllers values in order to get full coverage and no jumps in values. After pressing Connect, you can live-read the sent values to the left and the emulated values to the right. By calibrating with the values you get, it should become more accurate.
+* the UI still uses the **old GameCube layout**
+* button mapping is still incomplete
+* **Select / Minus / Back is not mapped correctly yet**
+* controller-specific abstractions are not implemented
+* input scaling and calibration may still be off
 
-The 2 options for percentages decide how the analog triggers are handeled:
-- "100% at bump" means that trigger value goes from 0 at base to 255 at the bump.
-- "100% at press" means that the trigger value goes from 0 at base to 255 at full press.
+---
 
-**How to use**
+## Scope
 
-After you press connect and see your inputs work you can close the window. You should then be able to configure the controller in steam successfully. For me I only had to configure once, on later uses I just had to use the tool and steam remembered the configured controller.
+Right now this project is mainly a:
 
-Optional, you can also press the Emulate button. The tool then emulates a 360 controller for simpler use in non-steam games etc + the analog shoulder buttons then work. You need to have [ViGEmBus](https://github.com/nefarius/ViGEmBus) installed for it to work.
+* reverse engineering playground
+* HID parsing test tool
+* controller mapping prototype
 
-**DISCLAIMER**
+It is **not** a polished end-user tool.
 
-I take **NO** responsibility for any damages done by the code. I am an amateur that did this for fun / own use.
-**USE AT YOUR OWN RISK!** Idk if i handle threads there correctly, especially when closing the window and the HID process is still running. Idk if it closes.
-Also the website sends way more commands. I only send the initial one and the LED command. I dont know if thats the right way to do it.
+---
 
-**Special Thanks**
+## Current Target
 
-Big thanks to handheldlegend for letting me use his code in this and Nohzockt for his code.
+Main device currently being tested:
 
-**LICENSES**
+* **Nintendo Switch 2 Pro Controller (USB)**
 
-HidLibrary: MIT License
+The project started from a GameCube-controller-oriented fork and parts of that original UI / logic are still present.
 
-LibUsbDotNet: GNU Lesser General Public License v3.0
+---
 
-Nefarius.ViGEm.Client: MIT License
+## How it currently works
+
+Current pipeline:
+
+1. Open USB device
+2. Send minimal initialization commands
+3. Read input through HID
+4. Parse buttons / sticks / triggers using the current assumed layout
+5. Show activity in the UI
+6. Optionally forward input to a virtual Xbox 360 controller
+
+---
+
+## Known Issues
+
+* UI is still GameCube-based and does not match the current target controller
+* Select / Minus / Back is not mapped yet
+* some button labels may still reflect the older layout
+* HID format assumptions may still be wrong in places
+* analog scaling is still experimental
+* USB init sequence is likely incomplete
+* code structure is still being refactored
+
+---
+
+## Features
+
+* USB init
+* HID read loop
+* input visualization
+* trigger calibration
+* Xbox 360 emulation via ViGEm
+
+---
+
+## Requirements
+
+* .NET 8 Desktop Runtime (x64)
+* ViGEmBus Driver
+
+---
+
+## Build
+
+```bash
+dotnet build WinFormsApp1/WinFormsApp1.csproj -c Release
+```
+
+---
+
+## Usage
+
+1. Plug the controller in via USB
+2. Click **Connect**
+3. Check what is detected in the UI
+4. Optionally click **Emulate**
+
+Because the UI and mapping are still in transition, what you see on screen may not fully match the physical controller yet.
+
+---
+
+## Development Notes
+
+This repository is currently focused on:
+
+* validating the Switch 2 Pro USB/HID flow
+* fixing button mappings
+* replacing the old GameCube UI
+* cleaning up the code before adding broader controller support
+
+---
+
+## Dependencies
+
+* HidLibrary
+* LibUsbDotNet
+* Nefarius.ViGEm.Client
+
+---
+
+## Credits
+
+* Accolith (original project)
+* handheldlegend
+* Nohzockt
+
+---
+
+## Disclaimer
+
+This project is unfinished and experimental.
+
+Use it for testing, debugging, and reverse engineering — not as a polished controller solution.
